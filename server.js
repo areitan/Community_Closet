@@ -1,3 +1,5 @@
+import { generateUploadURL } from "./s3.js";
+
 const path = require("path");
 const express = require("express");
 const session = require("express-session");
@@ -7,6 +9,9 @@ const helpers = require("./utils/helpers");
 
 const sequelize = require("./config/connection");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
+
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -35,6 +40,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(routes);
+
+//
+app.post("/images", upload.single("avatar"), (req, res) => {
+  res.send("Resolved successfully!");
+});
+
+app.get("/s3Url", async (req, res) => {
+  const url = await generateUploadURL();
+  res.send({ url });
+});
 
 sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => console.log("Now listening"));
