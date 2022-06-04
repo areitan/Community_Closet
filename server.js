@@ -1,16 +1,17 @@
-import { generateUploadURL } from "./s3.js";
+const { generateUploadURL } = require("./s3.js");
 
 const path = require("path");
 const express = require("express");
 const session = require("express-session");
 const exphbs = require("express-handlebars");
-const routes = require("./controllers");
+const routes = require("./controllers/index");
 const helpers = require("./utils/helpers");
 
 const sequelize = require("./config/connection");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 
 const multer = require("multer");
+const multerS3 = require("multer-s3");
 const upload = multer({ dest: "uploads/" });
 
 const app = express();

@@ -1,6 +1,5 @@
 {
   "name": "community_closet",
-  "type": "module",
   "version": "1.0.0",
   "description": "![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)",
   "main": "server.js",
