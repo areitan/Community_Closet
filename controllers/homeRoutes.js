@@ -2,10 +2,7 @@ const router = require("express").Router();
 const { User, Post, Comment } = require("../models");
 const Auth = require("../utils/auth");
 
-// When server is ready, test the routes and update them with working code.
-// 1st get route should return all posts for the page, 2nd should work as a singular post page, 3rd should provide the user profile. 4th should provide Login page upon use.
-
-router.get("/homepage", async (req, res) => {
+router.get("/homepage", Auth, async (req, res) => {
   try {
     const postData = await Post.findAll({
       include: [
@@ -37,7 +34,7 @@ router.get("/new-post", async (req, res) => {
   }
 });
 
-router.get("/post/:id", async (req, res) => {
+router.get("/post/:id", Auth, async (req, res) => {
   try {
     const postData = await Post.findByPk(req.params.id, {
       include: [
